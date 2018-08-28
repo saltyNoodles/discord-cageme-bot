@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const _ = require('lodash');
@@ -119,11 +121,21 @@ const quotes = [
   }
 ];
 
-const genQuote = () => quotes[_.random(0, quotes.length)].quote;
+const genQuote = () => quotes[_.random(0, quotes.length - 1)].quote;
 
 const generateDimensions = () => {
-  const n = () => _.random(500, 700);
+  const n = () => _.random(1000, 1500);
   return `${n()}/${n()}`;
+};
+
+const generateCageImage = () => {
+  const cageme = _.random(0, 5) != 1;
+  console.log(cageme);
+  if (cageme) {
+    return `http://cageme.herokuapp.com/specific/${_.random(5, 79)}.png`;
+  } else {
+    return `http://www.placecage.com/g/${generateDimensions()}.png`;
+  }
 };
 
 client.on('ready', () => {
@@ -131,13 +143,15 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  if (msg.content === 'cageme') {
+  if (msg.content.includes('cageme')) {
     msg.channel.send(`"${genQuote()}"`, {
-      file: `http://www.placecage.com/gif/${generateDimensions()}.png`
+      file: generateCageImage()
     });
   } else if (msg.content === 'murrayme') {
-    msg.channel.send(`http://www.fillmurray.com/${generateDimensions()}`);
+    msg.channel.send('', {
+      file: `http://www.fillmurray.com/${generateDimensions()}.png`
+    });
   }
 });
 
-client.login('NDg0MDk1MDA0MDc2Mjc3Nzkx.DmdGWw.5WA268hXwbOeKbm-_EM-QdWjU84');
+client.login(process.env.DISCORD_BOT_KEY);

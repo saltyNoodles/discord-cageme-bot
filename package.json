@@ -12,5 +12,12 @@
     "dotenv": "^6.0.0",
     "koa": "^2.5.2",
     "lodash": "^4.17.10"
+  },
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
   }
 }
