@@ -38,7 +38,9 @@ client.on('message', msg => {
     msg.channel.send(`"${genQuote()}"`, {
       file: generateCageImage()
     });
-  } else if (msg.content === 'murrayme') {
+  }
+
+  if (msg.content.includes('murrayme')) {
     msg.channel.send('', {
       file: `http://www.fillmurray.com/${generateDimensions()}.png`
     });
